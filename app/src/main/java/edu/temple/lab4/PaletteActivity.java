@@ -1,65 +1,41 @@
 package edu.temple.lab4;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.GridView;
 
-import androidx.appcompat.app.AppCompatActivity;
+public class PaletteActivity extends Activity {
 
-import java.util.ArrayList;
-
-
-public class PaletteActivity extends AppCompatActivity {
-
-    private ArrayList<CustomColor> list = new ArrayList<>();
-    private ColorAdapter adapter;
-    private boolean first = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color);
-        addColor();
-        adapter = new ColorAdapter(this, list);
-        Spinner spinner= findViewById(R.id.spinner);
+        setContentView(R.layout.activity_palette);
 
-        spinner.setAdapter(adapter);
+        Resources res = getResources();
+        final String[] colors = res.getStringArray(R.array.Colors);
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        ColorAdapter colorAdapter = new ColorAdapter(this, colors);
+
+        //this is the gridView in the layout
+        GridView gridView = findViewById(R.id.gridView);
+        gridView.setAdapter(colorAdapter);
+
+        //when item is clicked
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (first){
-                    first = false;
-                    return;
-                }
-                Intent intent = new Intent(PaletteActivity.this,CanvasActivity.class);
-                String color = list.get(i).getColor();
-                intent.putExtra("color",color);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //create the intent
+                Intent intent = new Intent(PaletteActivity.this, CanvasActivity.class);
+                //put string into the extra with the key: color
+                intent.putExtra("color", colors[position]);
+                //launch the intent
                 startActivity(intent);
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
-    }
-
-
-    private void addColor() {
-        list.add(new CustomColor("White","#FFFFFF"));
-        list.add(new CustomColor("BLUE","#0000ff"));
-        list.add(new CustomColor("RED","#ff0000"));
-        list.add(new CustomColor("YELLOW","#ffff00"));
-        list.add(new CustomColor("MAGENTA","#ff00ff"));
-        list.add(new CustomColor("LTGRAY","#cccccc"));
-        list.add(new CustomColor("GREEN","#00ff00"));
-        list.add(new CustomColor("NavajoWhite","#FFDEAD"));
-        list.add(new CustomColor("GreenYellow","#ADFF2F"));
-        list.add(new CustomColor("LightSalmon","#FFA07A"));
-        list.add(new CustomColor("Tomato","#FF6347"));
-        list.add(new CustomColor("Turquoise","#40E0D0"));
-        list.add(new CustomColor("Maroon","#800000"));
     }
 }

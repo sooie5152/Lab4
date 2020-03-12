@@ -1,19 +1,19 @@
 package edu.temple.lab4;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.RelativeLayout;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class CanvasActivity extends AppCompatActivity {
+public class CanvasActivity extends Activity {
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_canvas);
-        RelativeLayout root =  findViewById(R.id.ll_root);
-        String color = getIntent().getStringExtra("color");
-        root.setBackgroundColor(Color.parseColor(color));
+
+        ConstraintLayout constraintLayout = findViewById(R.id.constraintLayout);
+        constraintLayout.setBackgroundColor(Color.parseColor(getIntent().getStringExtra("color")));
     }
 }

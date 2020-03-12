@@ -2,61 +2,44 @@ package edu.temple.lab4;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
+/**
+ * Created by Steve-Laptop on 2/14/2018.
+ */
 
 public class ColorAdapter extends BaseAdapter {
-    ArrayList<CustomColor> customColors;
+    String[] colors;
     Context context;
-    public ColorAdapter(Context context, ArrayList<CustomColor> customColors) {
-        this.customColors = customColors;
+
+    public ColorAdapter (Context context, String[] colors){
+        this.colors = colors;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return customColors.size();
+        return colors.length;
     }
 
     @Override
-    public Object getItem(int i) {
-        return customColors.get(i);
+    public Object getItem(int position) {
+        return colors[position];
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public long getItemId(int position) {
+        return 0;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder = null;
-        if (view == null) {
-            holder = new ViewHolder();
-            view = LayoutInflater.from(context).inflate(R.layout.item_color, viewGroup,false);
-            holder.llRoot =  view.findViewById(R.id.ll_root);
-            holder.tvName =  view.findViewById(R.id.tv_name);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-        CustomColor customColor = customColors.get(i);
-        holder.llRoot.setBackgroundColor(Color.parseColor(customColor.getColor()));
-        holder.tvName.setText(customColor.getName());
-        return view;
-    }
-
-
-
-    private class ViewHolder{
-        LinearLayout llRoot;
-        TextView tvName;
+    public View getView(int position, View convertView, ViewGroup parent) {
+        TextView textView = new TextView(context);
+        textView.setText(colors[position]);
+        textView.setBackgroundColor(Color.parseColor(colors[position]));
+        return textView;
     }
 }
